@@ -144,12 +144,12 @@ $('#payment').change( function(){
     $('#credit-card').show();
     $('div p').hide();
   } else if ($('#payment option:selected').text() === 'PayPal') {
-    $('div p:first').show();
-    $('div p:last').hide();
+    $('div p:eq(-1)').hide();
+    $('div p:eq(-2)').show();
     $('#credit-card').hide();
   } else if ($('#payment option:selected').text() === 'Bitcoin') {
-    $('div p:last').show();
-    $('div p:first').hide();
+    $('div p:eq(-1)').show();
+    $('div p:eq(-2)').hide();
     $('#credit-card').hide();
   }
 });
