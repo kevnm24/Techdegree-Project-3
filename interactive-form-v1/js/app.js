@@ -1,4 +1,4 @@
-$(document).ready( () =>{
+$(document).ready( function(){
   // this will focus on the first textbox when page reloads
   $('#name').focus();
   // without this line of code the textbox will apear when the page reloads
@@ -8,7 +8,7 @@ $(document).ready( () =>{
 });
 
 // this function will help show input textbox when other job role is selected if not it will be hidden
-$('#title').change( () => {
+$('#title').change( function() {
   if ($('#title option:selected').text() === 'Other') {
     $('#other-title').show();
   } else {
@@ -17,7 +17,7 @@ $('#title').change( () => {
 });
 
 // this function will display the color label and select menu and hide certian colors depending on what design you choose
-$('#design').change( () => {
+$('#design').change( function() {
   if ($('#design option:selected').text() === 'Theme - JS Puns') {
     $('#colors-js-puns').show();
     $('#color').val('tomato');
@@ -49,7 +49,7 @@ function addPrices() {
   }
 
 // from line 47-125 each checkbox has its own function when checked it will add or remove price and is placed into function addPrices
-$('input[name=all]').click( () =>{
+$('input[name=all]').click( function(){
   if (this.checked) {
     changePrice(200);
   } else {
@@ -59,7 +59,7 @@ $('input[name=all]').click( () =>{
 
 /*from line 57-103 are also checkbox functions but this time if these checkboxes are checked
 it will strike through and dissable the checkbox that has the same day and time*/
-$('input[name=js-frameworks]').click( () =>{
+$('input[name=js-frameworks]').click( function(){
   if (this.checked) {
     changePrice(100);
     $('input[name=express]').prop('disabled', true);
@@ -71,7 +71,7 @@ $('input[name=js-frameworks]').click( () =>{
   }
 });
 
-$('input[name=js-libs]').click( () =>{
+$('input[name=js-libs]').click( function(){
   if (this.checked) {
     changePrice(100);
     $('label:contains("Node.js Workshop — Tuesday 1pm-4pm, $100")').css('text-decoration', 'line-through');
@@ -83,7 +83,7 @@ $('input[name=js-libs]').click( () =>{
   }
 });
 
-$('input[name=express]').click( () =>{
+$('input[name=express]').click( function(){
   if (this.checked) {
     changePrice(100);
     $('label:contains("JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100")').css('text-decoration', 'line-through');
@@ -95,7 +95,7 @@ $('input[name=express]').click( () =>{
   }
 });
 
-$('input[name=node]').click( () =>{
+$('input[name=node]').click( function(){
   if (this.checked) {
     changePrice(100);
     $('label:contains("JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100")').css('text-decoration', 'line-through');
@@ -107,7 +107,7 @@ $('input[name=node]').click( () =>{
   }
 });
 
-$('input[name=node]').click( () =>{
+$('input[name=node]').click( function(){
   if (this.checked) {
     changePrice(100);
   } else {
@@ -115,7 +115,7 @@ $('input[name=node]').click( () =>{
   }
 });
 
-$('input[name=build-tools]').click( () =>{
+$('input[name=build-tools]').click( function(){
   if (this.checked) {
     changePrice(200);
   } else {
@@ -123,7 +123,7 @@ $('input[name=build-tools]').click( () =>{
   }
 });
 
-$('input[name=npm').click( () =>{
+$('input[name=npm').click( function(){
   if (this.checked) {
     changePrice(200);
   } else {
@@ -139,7 +139,7 @@ $('#credit-card').show();
 $('div p').hide();
 
 // This function will help select an option with its corresponding payment info
-$('#payment').change( () =>{
+$('#payment').change( function(){
   if ($('#payment option:selected').text() === 'Credit Card') {
     $('#credit-card').show();
     $('div p').hide();
@@ -156,7 +156,7 @@ $('#payment').change( () =>{
 
 //$(":submit").attr('disabled', false); this line of code disables the submit button until function is valid
 // when you click away from name textbox it will either show an error if blank or will display green borders when text is written inside.
-$('#name').on('focusout',  () =>{
+$('#name').on('focusout',  function(){
   if ($('#name').val() === '') {
     $('#name').css('border-color', '#ff0000');
     $('#name').before('<p> Type in your name!!!</p>');
@@ -169,7 +169,7 @@ $('#name').on('focusout',  () =>{
 });
 
 // this function will help validate if email is valid or not.
-$('#mail').on('focusout',  () =>{
+$('#mail').on('focusout',  function(){
   var emailInput = $('#mail').val();
   /* I was not able to find a solution, so I found this line of code on stackoverflow that will check if email pattern is correct
   here is the link https://stackoverflow.com/questions/9572254/validate-email-with-regex-jquery*/
@@ -185,7 +185,7 @@ $('#mail').on('focusout',  () =>{
 });
 
 // This will display a message if no checkboxes are checked.
-$('input[type=checkbox]').on('change',  () =>{
+$('input[type=checkbox]').on('change',  function(){
   const checked = $('input[type="checkbox"]:checked').length;
   if (checked<1) {
     $('.activities').after('<p>You must select at least one checkbox!!!</p>');
@@ -196,7 +196,7 @@ $('input[type=checkbox]').on('change',  () =>{
 });
 
 // This will validate if credit card is between 13 and 16 digits if blank it will show a different message
-$('#cc-num').focusout( () =>{
+$('#cc-num').focusout( function(){
   const cardLength = $('#cc-num').val().length;
   if (cardLength >=13 && cardLength<=16) {
     $('#cc-num').css('border-color', '#00ff0c');
@@ -213,7 +213,7 @@ $('#cc-num').focusout( () =>{
 });
 
 // This will validate if zip code is 5 digits long
-$('#zip').focusout( () =>{
+$('#zip').focusout( function(){
   const zipLength = $('#zip').val().length;
   if (zipLength === 5) {
     $('#zip').css('border-color', '#00ff0c');
@@ -226,7 +226,7 @@ $('#zip').focusout( () =>{
 });
 
 // This will validate if credit card cvv is exactly 3 digits long
-$('#cvv').focusout( () =>{
+$('#cvv').focusout( function(){
   const cvvLength = $('#cvv').val().length;
   if (cvvLength === 3) {
     $('#cvv').css('border-color', '#00ff0c');
