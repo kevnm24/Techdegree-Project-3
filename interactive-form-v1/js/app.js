@@ -20,15 +20,6 @@ $('#title').change( function() {
 $('#design').change( function() {
   if ($('#design option:selected').text() === 'Theme - JS Puns') {
     $('#colors-js-puns').show();
-    $('#color').val('tomato');
-    $('#color option[value = cornflowerblue]').hide();
-    $('#color option[value = darkslategrey]').hide();
-    $('#color option[value = gold]').hide();
-    $('#color option[value = tomato]').show();
-    $('#color option[value = steelblue]').show();
-    $('#color option[value = dimgrey]').show();
-  } else {
-    $('#colors-js-puns').show();
     $('#color').val('cornflowerblue');
     $('#color option[value = cornflowerblue]').show();
     $('#color option[value = darkslategrey]').show();
@@ -36,6 +27,16 @@ $('#design').change( function() {
     $('#color option[value = tomato]').hide();
     $('#color option[value = steelblue]').hide();
     $('#color option[value = dimgrey]').hide();
+  } else if ($('#design option:selected').text() === 'Select Theme') {
+    $('#colors-js-puns').hide();
+  } else {
+    $('#color').val('tomato');
+    $('#color option[value = cornflowerblue]').hide();
+    $('#color option[value = darkslategrey]').hide();
+    $('#color option[value = gold]').hide();
+    $('#color option[value = tomato]').show();
+    $('#color option[value = steelblue]').show();
+    $('#color option[value = dimgrey]').show();
   }
 });
 
@@ -143,6 +144,8 @@ $('#payment').change( function(){
   if ($('#payment option:selected').text() === 'Credit Card') {
     $('#credit-card').show();
     $('div p').hide();
+// This will return function to validate credit card textboxes if credit card is choosen as payment
+    valPayment();
   } else if ($('#payment option:selected').text() === 'PayPal') {
     $('div p:eq(-1)').hide();
     $('div p:eq(-2)').show();
@@ -154,17 +157,16 @@ $('#payment').change( function(){
   }
 });
 
-//$(":submit").attr('disabled', false); this line of code disables the submit button until function is valid
 // when you click away from name textbox it will either show an error if blank or will display green borders when text is written inside.
 $('#name').on('focusout',  function(){
   if ($('#name').val() === '') {
     $('#name').css('border-color', '#ff0000');
     $('#name').before('<p> Type in your name!!!</p>');
-    $(":submit").attr('disabled', true);
+    $('#name').addClass('error');
   } else {
     $('#name').css('border-color', '#00ff0c');
-    $('#name p').hide();
-    $(":submit").attr('disabled', false);
+    $('p:contains("Type in your name!!!")').html("");
+    $('#name').removeClass('error');
   }
 });
 
@@ -177,21 +179,11 @@ $('#mail').on('focusout',  function(){
   if (!pattern.test(emailInput)) {
     $('#mail').css('border-color', '#ff0000');
     $('#mail').before('<p> Type in a valid email!!!</p>');
-    $(":submit").attr('disabled', true);
+    $('#mail').addClass('error');
   } else {
     $('#mail').css('border-color', '#00ff0c');
-    $(":submit").attr('disabled', false);
-  }
-});
-
-// This will display a message if no checkboxes are checked.
-$('input[type=checkbox]').on('change',  function(){
-  const checked = $('input[type="checkbox"]:checked').length;
-  if (checked<1) {
-    $('.activities').after('<p>You must select at least one checkbox!!!</p>');
-    $(":submit").attr('disabled', true);
-  } else {
-    $(":submit").attr('disabled', false);
+    $('p:contains("Type in a valid email!!!")').html("");
+    $('#mail').removeClass('error');
   }
 });
 
@@ -200,15 +192,18 @@ $('#cc-num').focusout( function(){
   const cardLength = $('#cc-num').val().length;
   if (cardLength >=13 && cardLength<=16) {
     $('#cc-num').css('border-color', '#00ff0c');
-    $(":submit").attr('disabled', false);
+    $('p:contains("Type in your card number!!!")').html("");
+    $('p:contains("Credit card number must be between 13 and 16 digits!!!")').html("");
+    $('#cc-num').removeClass('error');
   } else if ($('#cc-num').val() === '') {
     $('#cc-num').css('border-color', '#ff0000');
     $('#credit-card').before('<p> Type in your card number!!!</p>');
-    $(":submit").attr('disabled', true);
+    $('#cc-num').addClass('error');
   } else {
+    $('p:contains("Type in your card number!!!")').html("");
     $('#cc-num').css('border-color', '#ff0000');
     $('#credit-card').before('<p>Credit card number must be between 13 and 16 digits!!!</p>');
-    $(":submit").attr('disabled', true);
+    $('#cc-num').addClass('error');
   }
 });
 
@@ -217,11 +212,12 @@ $('#zip').focusout( function(){
   const zipLength = $('#zip').val().length;
   if (zipLength === 5) {
     $('#zip').css('border-color', '#00ff0c');
-    $(":submit").attr('disabled', false);
+    $('p:contains("Zip code must be 5 digits long!!!")').html("");
+    $('#zip').removeClass('error');
   } else {
     $('#zip').css('border-color', '#ff0000');
     $('#credit-card').before('<p>Zip code must be 5 digits long!!!</p>');
-    $(":submit").attr('disabled', true);
+    $('#zip').addClass('error');
   }
 });
 
@@ -230,10 +226,50 @@ $('#cvv').focusout( function(){
   const cvvLength = $('#cvv').val().length;
   if (cvvLength === 3) {
     $('#cvv').css('border-color', '#00ff0c');
-    $(":submit").attr('disabled', false);
+    $('p:contains("CVV must be exactly 3 digits long!!!")').html("");
+    $('#cvv').removeClass('error');
   } else {
     $('#cvv').css('border-color', '#ff0000');
     $('#credit-card').before('<p>CVV must be exactly 3 digits long!!!</p>');
-    $(":submit").attr('disabled', true);
+    $('#cvv').addClass('error');
   }
 });
+
+function valPayment() {
+  $('button').on('click', function(){
+    const checked = $('input[type="checkbox"]:checked').length;
+
+  // This will display a message when texboxes are red.
+    if ($('#name').hasClass('error') || $('#mail').hasClass('error') || $('.activities').hasClass('error') || $('#cc-num').hasClass('error') || $('#zip').hasClass('error') || $('#cvv').hasClass('error'))  {
+      $('button').after('<p>Please check red input boxes and click Register again.</p>');
+      event.preventDefault();
+      $('p:contains("Please check if input boxes are filled in and click Register again.")').html("");
+      $('p:contains("Please check at least one checkbox and click Register again.")').html("");
+      $('p:contains("Please make sure you only have numbers in Card Number, Zip , and CVV, then click Register again.")').html("");
+
+  // This will display a message if 1 or more textboxes are not filled in.
+  } else if ($('#name').val()==='' || $('#mail').val()==='' || $('#cc-num').val()==='' || $('#zip').val()==='' || $('#cvv').val()==='') {
+      $('button').after('<p>Please check if input boxes are filled in and click Register again.</p>');
+      event.preventDefault();
+      $('p:contains("Please check red input boxes and click Register again.")').html("");
+      $('p:contains("Please check at least one checkbox and click Register again.")').html("");
+      $('p:contains("Please make sure you only have numbers in Card Number, Zip , and CVV, then click Register again.")').html("");
+
+  // This will display a message if no checkboxes are checked.
+    } else if (checked<1) {
+      $('button').after('<p>Please check at least one checkbox and click Register again.</p>');
+      event.preventDefault();
+      $('p:contains("Please check red input boxes and click Register again.")').html("");
+      $('p:contains("Please check if input boxes are filled in and click Register again.")').html("");
+      $('p:contains("Please make sure you only have numbers in Card Number, Zip, and CVV, then click Register again.")').html("");
+
+  //This will display a message if card number, zip code, or cvv number have letters in them.
+    } else if (isNaN($('#cc-num').val()) || isNaN($('#zip').val()) || isNaN($('#cvv').val())) {
+      $('button').after('<p>Please make sure you only have numbers in Card Number, Zip , and CVV, then click Register again.</p>');
+      event.preventDefault();
+      $('p:contains("Please check red input boxes and click Register again.")').html("");
+      $('p:contains("Please check if input boxes are filled in and click Register again.")').html("");
+      $('p:contains("Please check at least one checkbox and click Register again.")').html("");
+    }
+  });
+}
