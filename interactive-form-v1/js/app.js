@@ -141,7 +141,6 @@ function cardClick() {
   if ($('#payment option[value="credit card"]').attr('selected', 'selected')) {
     $('#credit-card').show();
     $('div p').hide();
-    valCardInput();
     valCard();
     valZip();
     valCvv();
@@ -153,15 +152,36 @@ $('#payment').change( function(){
   if ($('#payment option:selected').text() === 'Credit Card') {
     $('#credit-card').show();
     $('div p').hide();
+    valCardInput();
 // This will return function to validate credit card textboxes if credit card is choosen as payment
   } else if ($('#payment option:selected').text() === 'PayPal') {
     $('div p:eq(-1)').hide();
     $('div p:eq(-2)').show();
-    $('#credit-card').remove();
+    $('#credit-card').hide();
+    $('p:contains("Type in your card number!!!")').html("");
+    $('p:contains("Credit card number must be between 13 and 16 digits!!!")').html("");
+    $('p:contains("Please make sure you only have numbers in Card Number then click Register again.")').html("");
+    $('p:contains("Zip code must be 5 digits long!!!")').html("");
+    $('p:contains("Please make sure you only have numbers in Zip then click Register again.")').html("");
+    $('p:contains("CVV must be exactly 3 digits long!!!")').html("");
+    $('p:contains("Please make sure you only have numbers in CVV then click Register again.")').html("");
+    $('#cc-num').removeClass('error');
+    $('#zip').removeClass('error');
+    $('#cvv').removeClass('error');
   } else if ($('#payment option:selected').text() === 'Bitcoin') {
     $('div p:eq(-1)').show();
     $('div p:eq(-2)').hide();
-    $('#credit-card').remove();
+    $('#credit-card').hide();
+    $('p:contains("Type in your card number!!!")').html("");
+    $('p:contains("Credit card number must be between 13 and 16 digits!!!")').html("");
+    $('p:contains("Please make sure you only have numbers in Card Number then click Register again.")').html("");
+    $('p:contains("Zip code must be 5 digits long!!!")').html("");
+    $('p:contains("Please make sure you only have numbers in Zip then click Register again.")').html("");
+    $('p:contains("CVV must be exactly 3 digits long!!!")').html("");
+    $('p:contains("Please make sure you only have numbers in CVV then click Register again.")').html("");
+    $('#cc-num').removeClass('error');
+    $('#zip').removeClass('error');
+    $('#cvv').removeClass('error');
   }
 });
 
@@ -283,6 +303,10 @@ function valCvv() {
 
   $('button').on('click', function(){
     const checked = $('input[type="checkbox"]:checked').length;
+    if ($('p:contains("Please check red input boxes and click Register again.")').length>0 || $('p:contains("Please check if input boxes are filled in and click Register again.")').length>0) {
+    $('p:contains("Please check red input boxes and click Register again.")').hide();
+    $('p:contains("Please check if input boxes are filled in and click Register again.")').hide();
+  }
   // This will display a message when texboxes are red.
     if ($('#name').hasClass('error') || $('#mail').hasClass('error') || $('.activities').hasClass('error') || $('#cc-num').hasClass('error') || $('#zip').hasClass('error') || $('#cvv').hasClass('error'))  {
       $('button').after('<p>Please check red input boxes and click Register again.</p>');
