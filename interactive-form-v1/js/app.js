@@ -152,7 +152,6 @@ $('#payment').change( function(){
   if ($('#payment option:selected').text() === 'Credit Card') {
     $('#credit-card').show();
     $('div p').hide();
-    valCardInput();
     valCard();
     valZip();
     valCvv();
