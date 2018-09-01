@@ -153,6 +153,9 @@ $('#payment').change( function(){
     $('#credit-card').show();
     $('div p').hide();
     valCardInput();
+    valCard();
+    valZip();
+    valCvv();
 // This will return function to validate credit card textboxes if credit card is choosen as payment
   } else if ($('#payment option:selected').text() === 'PayPal') {
     $('div p:eq(-1)').hide();
@@ -316,7 +319,7 @@ function valCvv() {
       $('p:contains("Please make sure you only have numbers in Card Number, Zip , and CVV, then click Register again.")').html("");
 
   // This will display a message if 1 or more textboxes are not filled in.
-  } else if ($('#name').val()==='' || $('#mail').val()==='') {
+} else if ($('#name').val()==='' || $('#mail').val()==='' || $('#cc-num').val()==='' || $('#zip').val()==='' || $('#cvv').val()==='') {
       $('button').after('<p>Please check if input boxes are filled in and click Register again.</p>');
       event.preventDefault();
       $('p:contains("Please check red input boxes and click Register again.")').html("");
@@ -332,25 +335,3 @@ function valCvv() {
       $('p:contains("Please make sure you only have numbers in Card Number, Zip, and CVV, then click Register again.")').html("");
     }
 });
-
-function valCardInput() {
-  $('button').on('click', function(){
-    if ($('#cc-num').val()==='') {
-      $('#cc-num').css('border-color', '#ff0000');
-      $('button').after('<p>Please check if input boxes are filled in and click Register again.</p>');
-      $('#cc-num').addClass('error');
-    } else if ($('#zip').val()==='') {
-      $('#zip').css('border-color', '#ff0000');
-      $('button').after('<p>Please check if input boxes are filled in and click Register again.</p>');
-      $('#zip').addClass('error');
-    } else if ($('#cvv').val()==='') {
-      $('#cvv').css('border-color', '#ff0000');
-      $('button').after('<p>Please check if input boxes are filled in and click Register again.</p>');
-      $('#cvv').addClass('error');
-    } else {
-      $('#cc-num').removeClass('error');
-      $('#zip').removeClass('error');
-      $('#cvv').removeClass('error');
-    }
-  })
-}
