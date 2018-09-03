@@ -367,7 +367,7 @@ function valCvv() {
     }
 // This will display a message if no checkboxes are checked.
     else if (checked<1) {
-      $('button').after('<p>Please check at least one checkbox and click Register again.</p>');
+      $('.activities').after('<p>Please check at least one checkbox and click Register again.</p>');
       event.preventDefault();
     }
 });
